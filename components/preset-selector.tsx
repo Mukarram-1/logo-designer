@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import type { Preset } from "@/types/logo";
 import { useState } from "react";
 import type { LogoState } from "@/types/logo";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 const presets: Preset[] = [
   {
     id: "1",
@@ -99,22 +105,31 @@ export function PresetSelector({ setLogoState }: PresetSelectorProps) {
     };
   return (
     <div className="flex gap-2">
-      {presets.map((preset, index) => (
-        <Button
-          key={preset.id}
-          variant="outline"
-          size="icon"
-          className={`h-8 w-8 rounded-full ${
-            currentPresetIndex === index ? "ring-2 ring-primary" : ""
-          }`}
-          style={{
-            background: `linear-gradient(135deg, ${preset.state.background.startColor}, ${preset.state.background.endColor})`,
-          }}
-          onClick={() => handlePresetChange(index)}
-        >
-          <span className="sr-only">{preset.name}</span>
-        </Button>
-      ))}
+      <TooltipProvider>
+        {presets.map((preset, index) => (
+          <Tooltip key={preset.id}>
+            <TooltipTrigger asChild>
+              <Button
+                variant="outline"
+                size="icon"
+                className={`h-8 w-8 rounded-full ${
+                  currentPresetIndex === index ? "ring-2 ring-primary" : ""
+                }`}
+                style={{
+                  background: `linear-gradient(135deg, ${preset.state.background.startColor}, ${preset.state.background.endColor})`,
+                }}
+                onClick={() => handlePresetChange(index)}
+                aria-label={preset.name}
+              >
+                <span className="sr-only">{preset.name}</span>
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Preset {preset.name}</p>
+            </TooltipContent>
+          </Tooltip>
+        ))}
+      </TooltipProvider>
     </div>
   );
 }

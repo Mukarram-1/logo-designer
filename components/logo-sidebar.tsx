@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import * as LucideIcons from "lucide-react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { cn } from "@/lib/utils";
@@ -122,21 +122,21 @@ IconGrid.displayName = "IconGrid";
 
 export function LogoSidebar({ logoState, setLogoState }: LogoSidebarProps) {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  // const [searchQuery, setSearchQuery] = useState("");
 
-  const allIcons = useMemo(() => Object.keys(LucideIcons).slice(0, -2), []);
+  // const allIcons = useMemo(() => Object.keys(LucideIcons).slice(0, -2), []);
 
-  const filteredIcons = useMemo(
-    () =>
-      searchQuery
-        ? allIcons.filter((iconName) =>
-            iconName
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase().replace(/\s+/g, ""))
-          )
-        : allIcons,
-    [searchQuery, allIcons]
-  );
+  // const filteredIcons = useMemo(
+  //   () =>
+  //     searchQuery
+  //       ? allIcons.filter((iconName) =>
+  //           iconName
+  //             .toLowerCase()
+  //             .includes(searchQuery.toLowerCase().replace(/\s+/g, ""))
+  //         )
+  //       : allIcons,
+  //   [searchQuery, allIcons]
+  // );
 
   const updateIconState = useCallback(
     (key: keyof LogoState["icon"], value: string | number) => {
@@ -168,20 +168,20 @@ export function LogoSidebar({ logoState, setLogoState }: LogoSidebarProps) {
     <Card className="border-0 shadow-none">
       <CardContent className="p-0 space-y-6">
         <div className="space-y-2">
-          <Label className="text-sm font-medium text-gray-600">
+          {/* <Label className="text-sm font-medium text-gray-600">
             Search Icons
-          </Label>
-          <Input
+          </Label> */}
+          {/* <Input
             placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="bg-gray-50 border border-gray-300 focus:ring-2 focus:ring-indigo-500"
-          />
-          <IconGrid
+          /> */}
+          {/* <IconGrid
             icons={filteredIcons}
             selectedIcon={logoState.icon.type}
             onIconSelect={(iconName) => updateIconState("type", iconName)}
-          />
+          /> */}
         </div>
 
         <div className="space-y-2">
