@@ -26,8 +26,8 @@ const initialLogoState: LogoState = {
     fillColor: "#ffffff",
   },
   background: {
-    startColor: "#4F46E5",
-    endColor: "#7C3AED",
+    startColor: "#2C8C99",
+    endColor: "#006494",
     shape: "square",
     text: "",
     textColor: "#ffffff",
