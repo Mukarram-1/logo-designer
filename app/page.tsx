@@ -1,7 +1,13 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { ArrowLeft, Download, Redo2, Undo2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Download,
+  Redo2,
+  Undo2,
+  Plus,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { LogoCanvas } from "@/components/logo-canvas";
@@ -11,7 +17,7 @@ import type { LogoState } from "@/types/logo";
 
 const initialLogoState: LogoState = {
   icon: {
-    type: "HeartIcon",
+    type: "ZapIcon",
     size: 406,
     rotation: 0,
     borderWidth: 2.3,
@@ -20,8 +26,8 @@ const initialLogoState: LogoState = {
     fillColor: "#ffffff",
   },
   background: {
-    startColor: "#ff7676",
-    endColor: "#f54ea2",
+    startColor: "#4F46E5",
+    endColor: "#7C3AED",
     shape: "square",
     text: "",
     textColor: "#ffffff",
@@ -31,6 +37,7 @@ const initialLogoState: LogoState = {
     textY: 256,
   },
 };
+
 type LogoCanvasRef = {
   canvas: HTMLCanvasElement | null;
   undo: () => void;
@@ -47,7 +54,6 @@ export default function LogoDesigner() {
     try {
       const link = document.createElement("a");
       link.download = `logo-${Date.now()}.png`;
-      // Access the canvas element through the ref's canvas property
       link.href = canvasRef.current.canvas.toDataURL("image/png");
       document.body.appendChild(link);
       link.click();
@@ -56,49 +62,76 @@ export default function LogoDesigner() {
       console.error("Error downloading logo:", error);
     }
   };
-    const handleUndo = () => {
-      if (canvasRef.current) {
-        canvasRef.current?.undo();
-      }
-    };
 
-    const handleRedo = () => {
-      if (canvasRef.current) {
-        canvasRef.current?.redo();
-      }
-    };
+  const handleUndo = () => {
+    if (canvasRef.current) {
+      canvasRef.current.undo();
+    }
+  };
+
+  const handleRedo = () => {
+    if (canvasRef.current) {
+      canvasRef.current.redo();
+    }
+  };
 
   return (
-    <div className="flex h-screen flex-col">
-      <header className="flex h-16 items-center justify-between border-b px-4">
+    <div className="flex h-screen flex-col bg-[#f8f9ff]">
+      <header className="flex h-14 items-center justify-between px-4 bg-gradient-to-r from-[#006494] via-[#2C8C99] to-[#003554] text-white">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-white hover:bg-white/10"
+          >
+            <ArrowLeft className="h-5 w-5" />
           </Button>
-          <h1 className="text-lg font-semibold">Logo Designer</h1>
+          <h1 className="text-lg font-medium">Untitled design - Logo</h1>
         </div>
-        <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" onClick={handleUndo}>
-            <Undo2 className="h-4 w-4" />
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleUndo}
+            className="text-white hover:bg-white/10"
+          >
+            <Undo2 className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={handleRedo}>
-            <Redo2 className="h-4 w-4" />
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleRedo}
+            className="text-white hover:bg-white/10"
+          >
+            <Redo2 className="h-5 w-5" />
           </Button>
           <PresetSelector setLogoState={setLogoState} />
-          <Button onClick={handleDownload}>
+          <Button
+            onClick={handleDownload}
+            variant="secondary"
+            className="bg-white/10 hover:bg-white/20 text-white"
+          >
             <Download className="mr-2 h-4 w-4" />
             Download
+          </Button>
+          <Button className="bg-white text-[#0fa3b1] hover:bg-white/90">
+            <Plus className="mr-2 h-4 w-4" />
+            Upgrade your plan
           </Button>
         </div>
       </header>
       <main className="flex flex-1 overflow-hidden">
-        <LogoSidebar logoState={logoState} setLogoState={setLogoState} />
-        <div className="flex-1 overflow-auto p-6">
-          <LogoCanvas
-            logoState={logoState}
-            setLogoState={setLogoState}
-            ref={canvasRef}
-          />
+        <div className="flex">
+          <LogoSidebar logoState={logoState} setLogoState={setLogoState} />
+        </div>
+        <div className="flex-1 overflow-auto p-8 bg-[#f1f3f9]">
+          <div className="mx-auto max-w-[800px]">
+            <LogoCanvas
+              logoState={logoState}
+              setLogoState={setLogoState}
+              ref={canvasRef}
+            />
+          </div>
         </div>
       </main>
     </div>

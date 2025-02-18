@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import type { Preset } from "@/types/logo";
 import { useState } from "react";
-
+import type { LogoState } from "@/types/logo";
 const presets: Preset[] = [
   {
     id: "1",
@@ -88,7 +88,10 @@ const presets: Preset[] = [
   },
 ];
 
-export function PresetSelector({setLogoState}) {
+interface PresetSelectorProps {
+  setLogoState: React.Dispatch<React.SetStateAction<LogoState>>;
+}
+export function PresetSelector({ setLogoState }: PresetSelectorProps) {
   const [currentPresetIndex, setCurrentPresetIndex] = useState(0);
     const handlePresetChange = (index: number) => {
       setCurrentPresetIndex(index);
