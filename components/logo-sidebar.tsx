@@ -26,6 +26,12 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { LogoState } from "@/types/logo";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface LogoSidebarProps {
   logoState: LogoState;
@@ -33,9 +39,9 @@ interface LogoSidebarProps {
 }
 
 const menuItems = [
-  { id: "icon", icon: Star, label: "Icon" },
-  { id: "background", icon: Image, label: "Background" },
-  { id: "text", icon: Type, label: "Text" },
+  { id: "icon", icon: Star, label: "Icon", color: "#FF6B6B" },
+  { id: "background", icon: Image, label: "Background", color: "#4ECDC4" },
+  { id: "text", icon: Type, label: "Text", color: "#FFD166" },
 ];
 
 const elementCategories = ["Circle", "Logo", "Line", "Heart", "Star"];
@@ -105,7 +111,7 @@ const IconGrid = React.memo(
                       )}
                       onClick={() => onIconSelect(iconName)}
                     >
-                      {LucideIcon && <LucideIcon className="h-6 w-6" />}
+                      {LucideIcon && <LucideIcon className="h-10 w-10" />}
                     </Button>
                   );
                 })}
@@ -428,25 +434,35 @@ export function LogoSidebar({ logoState, setLogoState }: LogoSidebarProps) {
   return (
     <>
       {/* Main Sidebar */}
-      <div className="w-[72px] border-r bg-white">
+      <div className="w-[85px] border-r bg-white">
         <div className="flex flex-col items-center gap-1 py-2">
-          {menuItems.map((item) => (
-            <Button
-              key={item.id}
-              variant="ghost"
-              size="icon"
-              className={cn(
-                "relative h-14 w-14 flex-col gap-1 rounded-xl p-2",
-                activeMenu === item.id && "bg-gray-100"
-              )}
-              onClick={() =>
-                setActiveMenu(activeMenu === item.id ? null : item.id)
-              }
-            >
-              <item.icon className="h-5 w-5" />
-              <span className="text-[10px]">{item.label}</span>
-            </Button>
-          ))}
+          <TooltipProvider>
+            {menuItems.map((item) => (
+              <Tooltip key={item.id}>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={cn(
+                      "relative h-16 w-16 rounded-xl p-2",
+                      activeMenu === item.id ? "bg-gray-100" : ""
+                    )}
+                    onClick={() =>
+                      setActiveMenu(activeMenu === item.id ? null : item.id)
+                    }
+                  >
+                    <item.icon 
+                      className="h-[10px] w-[10px]" 
+                      style={{ color: item.color }}
+                    />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="right">
+                  <p>{item.label}</p>
+                </TooltipContent>
+              </Tooltip>
+            ))}
+          </TooltipProvider>
         </div>
       </div>
 
